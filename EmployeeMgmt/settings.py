@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +22,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u7g79)yvd^08hhkoxtt1i$txsp5fc1harn*csenb@q(089)f!e'
-
+SECRET_KEY = os.environ.get('SECRET_KEY', default='12345')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+get_debug= os.environ.get('DJANGO_DEBUG', 'false').lower()
+DEBUG = get_debug== "true"
 
-ALLOWED_HOSTS = []
+get_allowed_hosts= os.environ.get('ALLOWED_HOSTS', default=False)
+if (get_allowed_hosts):
+    ALLOWED_HOSTS= get_allowed_hosts.split(' ')
+else:
+    ALLOWED_HOSTS=[]
 
 
 # Application definition
@@ -76,9 +82,7 @@ WSGI_APPLICATION = 'EmployeeMgmt.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
+DB_CONFIG= {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'EmployeeMgmt',
         'USER': "postgres",
@@ -86,15 +90,10 @@ DATABASES = {
         'HOST': "localhost",
         'PORT': '5432'
     }
-# "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "postgres",
-#         "USER": "postgres",
-#         "PASSWORD": "postgres",
-#         "HOST": "db",  # set in docker-compose.yml
-#         "PORT": 5432,  # default postgres port
-#     }
+DATABASES = {
+    'default': DB_CONFIG if os.environ.get('LOCALHOST') else dj_database_url.parse('postgres://employee_mgmt_db_user:WbQKPVzPjsh7al0a5rL1xHsareeBIAzu@dpg-cngbu3eg1b2c73d8mh0g-a/employee_mgmt_db')
 }
+# DATABASES['default']= dj_database_url.parse("postgres://employee_mgmt_db_user:WbQKPVzPjsh7al0a5rL1xHsareeBIAzu@dpg-cngbu3eg1b2c73d8mh0g-a.singapore-postgres.render.com/employee_mgmt_db")
 
 
 # Password validation
