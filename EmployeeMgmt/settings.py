@@ -91,7 +91,7 @@ DB_CONFIG= {
         'PORT': '5432'
     }
 DATABASES = {
-    'default': DB_CONFIG if os.environ.get('LOCALHOST') else dj_database_url.parse('postgres://employee_mgmt_db_user:WbQKPVzPjsh7al0a5rL1xHsareeBIAzu@dpg-cngbu3eg1b2c73d8mh0g-a/employee_mgmt_db')
+    'default': DB_CONFIG if os.environ.get('LOCALHOST') else dj_database_url.parse(os.environ.get('DATABASE_URL'))
 }
 # DATABASES['default']= dj_database_url.parse("postgres://employee_mgmt_db_user:WbQKPVzPjsh7al0a5rL1xHsareeBIAzu@dpg-cngbu3eg1b2c73d8mh0g-a.singapore-postgres.render.com/employee_mgmt_db")
 
