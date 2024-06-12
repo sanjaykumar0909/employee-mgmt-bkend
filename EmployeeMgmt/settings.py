@@ -22,11 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', default='12345')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 get_debug= os.environ.get('DJANGO_DEBUG', 'false').lower()
-# DEBUG = get_debug== "true"
-DEBUG= True
+DEBUG = get_debug== "true"
+
 get_allowed_hosts= os.environ.get('ALLOWED_HOSTS', default=False)
 if (get_allowed_hosts):
     ALLOWED_HOSTS= get_allowed_hosts.split(' ')
@@ -90,14 +90,14 @@ DB_CONFIG= {
         'HOST': "localhost",
         'PORT': '5432'
     }
-# DATABASES = {
-#     'default': DB_CONFIG if os.environ.get('LOCALHOST') else dj_database_url.parse(os.environ.get('DATABASE_URL'))
-# }
 DATABASES= {
 
 }
+# internal render DB link (to be used on production in render web service)
+DB_CONFIG if os.environ.get('LOCALHOST') else dj_database_url.parse(os.environ.get('DATABASE_URL'))
 
-DATABASES['default']= dj_database_url.parse("postgres://emp_mgmt_db_user:4qW5wvoKcZHV2Bv1QxgbcwOgoGsxoSxx@dpg-cpk7pl7sc6pc73eofi2g-a.singapore-postgres.render.com/emp_mgmt_db")
+# external render DB link (connect to render DB from locally)
+# DATABASES['default']= dj_database_url.parse("postgres://emp_mgmt_db_user:4qW5wvoKcZHV2Bv1QxgbcwOgoGsxoSxx@dpg-cpk7pl7sc6pc73eofi2g-a.singapore-postgres.render.com/emp_mgmt_db")
 
 
 # Password validation
