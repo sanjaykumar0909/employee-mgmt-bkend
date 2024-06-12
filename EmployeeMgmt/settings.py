@@ -25,8 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', default='12345')
 # SECURITY WARNING: don't run with debug turned on in production!
 get_debug= os.environ.get('DJANGO_DEBUG', 'false').lower()
-DEBUG = get_debug== "true"
-
+# DEBUG = get_debug== "true"
+DEBUG= True
 get_allowed_hosts= os.environ.get('ALLOWED_HOSTS', default=False)
 if (get_allowed_hosts):
     ALLOWED_HOSTS= get_allowed_hosts.split(' ')
@@ -90,10 +90,14 @@ DB_CONFIG= {
         'HOST': "localhost",
         'PORT': '5432'
     }
-DATABASES = {
-    'default': DB_CONFIG if os.environ.get('LOCALHOST') else dj_database_url.parse(os.environ.get('DATABASE_URL'))
+# DATABASES = {
+#     'default': DB_CONFIG if os.environ.get('LOCALHOST') else dj_database_url.parse(os.environ.get('DATABASE_URL'))
+# }
+DATABASES= {
+
 }
-# DATABASES['default']= dj_database_url.parse("postgres://employee_mgmt_db_user:WbQKPVzPjsh7al0a5rL1xHsareeBIAzu@dpg-cngbu3eg1b2c73d8mh0g-a.singapore-postgres.render.com/employee_mgmt_db")
+
+DATABASES['default']= dj_database_url.parse("postgres://emp_mgmt_db_user:4qW5wvoKcZHV2Bv1QxgbcwOgoGsxoSxx@dpg-cpk7pl7sc6pc73eofi2g-a.singapore-postgres.render.com/emp_mgmt_db")
 
 
 # Password validation
